@@ -42,8 +42,18 @@ services:
       - mlflow_storage:/mlflow
     networks:
       - diabetes_network
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    container_name: diabetes_frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api # API açılmadan frontend açılmasın
+    networks:
+      - diabetes_network
 
-# Define the volume managed by Docker
 volumes:
   mlflow_storage:
 
