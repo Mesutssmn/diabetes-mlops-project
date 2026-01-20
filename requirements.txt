@@ -12,3 +12,4 @@ joblib
 pytest
 httpx
 flake8
+xgboost

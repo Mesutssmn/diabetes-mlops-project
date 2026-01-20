@@ -7,11 +7,12 @@ import socket
 from src.api.schemas.prediction import DiabetesInput
 from src.utils.common import read_yaml
 from pathlib import Path
+from src.utils.common import load_object
 
 app = FastAPI(title="Diabetes Prediction Service")
 
-model = None
-scaler = None
+model_name = "DiabetesChampionModel"
+stage = "Production"
 
 def resolve_mlflow_uri(uri_or_host):
     try:
@@ -30,6 +31,32 @@ def resolve_mlflow_uri(uri_or_host):
 
 def load_artifacts():
     global model, scaler
+    try:
+        # 1. First try to load from MLflow (for Localhost)
+        mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+        client = MlflowClient()
+        model_production_uri = f"models:/{model_name}/{stage}"
+        model = mlflow.sklearn.load_model(model_production_uri)
+        print("✅ Model loaded from MLflow Registry")
+        
+    except Exception as e:
+        print(f"⚠️ MLflow connection failed: {e}")
+        print("🔄 Switching to local file loading (Offline/Render Mode)...")
+        
+        try:
+            # 2. If MLflow fails, load from local file (for Render)
+            model = load_object("models/model.joblib")
+            print("✅ Model loaded from local file (models/model.joblib)")
+        except Exception as e2:
+            print(f"❌ FATAL: Could not load model from file either: {e2}")
+            model = None
+
+    # Scaler yükleme (Same logic)   
+    try:
+        scaler = load_object("models/scaler.joblib")
+        print("✅ Scaler loaded successfully")
+    except Exception as e:
+        print(f"❌ Scaler loading failed: {e}")
     print("🔄 Model and Scaler loading...")
     try:
         config = read_yaml(Path("configs/config.yaml"))

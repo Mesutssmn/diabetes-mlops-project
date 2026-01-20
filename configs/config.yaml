@@ -10,4 +10,4 @@ data:
 mlflow:
   experiment_name: "diabetes_prediction_prod"
   tracking_uri: "http://mlflow_server:5000"
-  model_name: DiabetesElasticNetModel
+  model_name: DiabetesChampionModel
