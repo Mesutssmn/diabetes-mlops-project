@@ -10,3 +10,5 @@ pyyaml
 evidently        # For model monitoring
 joblib
 pytest
+httpx
+flake8

@@ -1,0 +1,49 @@
+name: CI Pipeline - Diabetes MLOps
+
+# When to run? (When main branch is pushed to)
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout Code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # 2. Python Setup
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    # 3. Install Dependencies
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest httpx
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # src modülünü bulabilmesi için PYTHONPATH ayarı
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+
+    # 4. Lint with flake8
+    - name: Lint with flake8
+      run: |
+        # Find writing errors and standard usage errors in the code
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    # 5. Run API Tests
+    # Note: The test will fail because MLflow and model files are not available.
+    # For now, we are only checking if there are any syntax errors.
+    # In the future, we will add 'pytest' command to this step.
+    
+    # 6. Docker Build Test (Most Important)
+    - name: Build Docker Images
+      run: |
+        docker-compose build
