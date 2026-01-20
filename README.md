@@ -1,6 +1,5 @@
 # 🩺 End-to-End MLOps: Diabetes Progression Prediction
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://diabetes-frontend-9oya.onrender.com)
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-009688)
@@ -391,7 +390,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 📧 Contact
 
-**Project Maintainer**: [Mesut Süsman](https://github.com/Mesutssmn)
+**Project Maintainer**: [Mesut Suhan Sisman](https://github.com/Mesutssmn)
 
 **Project Link**: [https://github.com/Mesutssmn/diabetes-mlops-project](https://github.com/Mesutssmn/diabetes-mlops-project)
 
