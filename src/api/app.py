@@ -80,9 +80,7 @@ def startup_event():
           * **s5 (ltg):** Log of Serum Triglycerides Level
           * **s6 (glu):** Blood Sugar Level
           """)
-def predict(data: DiabetesInput):
-    global model, scaler
-    
+def predict(data: DiabetesInput):    
     if model is None or scaler is None:
         print("⚠️ Model not loaded, loading now...")
         success = load_artifacts()
