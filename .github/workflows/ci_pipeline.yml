@@ -46,4 +46,4 @@ jobs:
     # 6. Docker Build Test (Most Important)
     - name: Build Docker Images
       run: |
-        docker-compose build
+        docker compose build
