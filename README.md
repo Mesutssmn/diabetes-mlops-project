@@ -1,93 +1,406 @@
-# 🩺 End-to-End Diabetes Prediction MLOps System
+# 🩺 End-to-End MLOps: Diabetes Progression Prediction
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://diabetes-frontend-9oya.onrender.com)
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-009688)
-![Streamlit](https://img.shields.io/badge/Streamlit-Frontend-FF4B4B)
-![MLflow](https://img.shields.io/badge/MLflow-Tracking-0194E2)
+![XGBoost](https://img.shields.io/badge/Model-XGBoost-orange)
+![CI/CD](https://github.com/Mesutssmn/diabetes-mlops-project/actions/workflows/ci_pipeline.yml/badge.svg)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-## 📖 Project Overview
-This project implements a complete **Full-Stack MLOps pipeline** for predicting diabetes disease progression based on physiological and blood serum measurements. It is designed to be **robust, scalable, and fully containerized**.
-
-The system automates the entire lifecycle:
-1.  **Data Ingestion & Validation**
-2.  **Model Training** (ElasticNet Regression)
-3.  **Experiment Tracking** (MLflow)
-4.  **Model Deployment** (FastAPI)
-5.  **User Interface** (Streamlit Web App)
+> A production-ready, full-stack MLOps system demonstrating the complete machine learning lifecycle from data ingestion to cloud deployment.
 
 ---
 
-## 🏗️ Architecture
+## 🚀 Live Demo
 
-The project runs on a multi-container Docker architecture:
+Experience the application in action:
 
-* **`diabetes_frontend`**: Interactive web interface built with **Streamlit** for end-users.
-* **`diabetes_api`**: The backend service (**FastAPI**) that serves the model. It includes a "Lazy Loading" mechanism to fetch the model from MLflow dynamically.
-* **`mlflow_server`**: A centralized tracking server for model registry, experiments, and artifact storage (SQLite backend).
+| Service | URL | Description |
+|---------|-----|-------------|
+| 🖥️ **Frontend** | [Streamlit App](https://diabetes-frontend-9oya.onrender.com) | Interactive prediction interface |
+| 📡 **API** | [Swagger Docs](https://diabetes-api-lpra.onrender.com/docs) | RESTful API documentation |
+
+> **Note:** Update the API link with your actual Render deployment URL
 
 ---
 
-## 🚀 Quick Start
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [System Architecture](#️-system-architecture)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Usage](#-usage)
+- [Model Performance](#-model-performance)
+- [Project Structure](#-project-structure)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
+## 🎯 Overview
+
+This project showcases a **production-grade MLOps pipeline** for predicting diabetes disease progression. It implements industry best practices including automated model training, experiment tracking, containerization, and CI/CD workflows.
+
+### What Makes This Special?
+
+- **AutoML Pipeline**: Automatically trains and compares multiple algorithms (ElasticNet, Random Forest, XGBoost)
+- **Intelligent Model Selection**: Uses cross-validation to select the best performing model
+- **Hybrid Deployment**: Seamlessly switches between MLflow Registry (dev) and local artifacts (production)
+- **Cloud-Ready**: Deployed on Render with zero-downtime architecture
+
+---
+
+## ✨ Key Features
+
+### 🤖 Machine Learning
+- **Automated Model Training**: Compare multiple algorithms with a single command
+- **Model Versioning**: Track experiments and models using MLflow
+- **Performance Monitoring**: Built-in metrics tracking and visualization
+- **Feature Engineering**: Automated preprocessing and validation
+
+### 🏗️ Architecture
+- **Microservices Design**: Separated backend (FastAPI) and frontend (Streamlit)
+- **Containerization**: Fully Dockerized for consistent environments
+- **API-First Approach**: RESTful API with OpenAPI documentation
+- **Scalable Infrastructure**: Ready for horizontal scaling
+
+### 🔄 DevOps & CI/CD
+- **Automated Testing**: GitHub Actions pipeline with linting and tests
+- **Docker Compose**: One-command local development setup
+- **Environment Management**: Configuration-driven deployments
+- **Cloud Deployment**: Automated deployment to Render
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+graph TB
+    subgraph "User Layer"
+        User[👤 User]
+    end
+    
+    subgraph "Frontend Layer"
+        UI[🎨 Streamlit UI<br/>Port: 8501]
+    end
+    
+    subgraph "Backend Layer"
+        API[⚡ FastAPI Server<br/>Port: 8000]
+    end
+    
+    subgraph "ML Layer"
+        MLflow[📊 MLflow Server<br/>Port: 5000]
+        Model[🤖 XGBoost Model]
+        LocalArtifact[📦 Local Model Artifact]
+    end
+    
+    subgraph "Data Layer"
+        DB[(🗄️ SQLite DB)]
+    end
+    
+    User -->|HTTP Request| UI
+    UI -->|REST API| API
+    API -->|Dev Mode| MLflow
+    API -->|Production Mode| LocalArtifact
+    MLflow --> Model
+    MLflow --> DB
+    
+    style User fill:#e1f5ff
+    style UI fill:#fff3cd
+    style API fill:#d4edda
+    style MLflow fill:#f8d7da
+    style Model fill:#d1ecf1
+```
+
+### Architecture Highlights
+
+- **Development Mode**: Models loaded from MLflow Registry for experimentation
+- **Production Mode**: Automatic fallback to local artifacts for reliability
+- **Stateless API**: Enables horizontal scaling and load balancing
+- **Persistent Storage**: Experiment tracking and model versioning in SQLite
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| **Language** | ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python) | Core programming language |
+| **Web Framework** | ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) | High-performance REST API |
+| **UI Framework** | ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white) | Interactive web interface |
+| **ML Framework** | ![XGBoost](https://img.shields.io/badge/XGBoost-orange) ![Sklearn](https://img.shields.io/badge/Scikit--learn-F7931E?logo=scikit-learn&logoColor=white) | Model training & evaluation |
+| **Experiment Tracking** | ![MLflow](https://img.shields.io/badge/MLflow-0194E2?logo=mlflow&logoColor=white) | Model versioning & registry |
+| **Containerization** | ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) | Consistent environments |
+| **CI/CD** | ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=github-actions&logoColor=white) | Automated testing & deployment |
+| **Cloud Platform** | ![Render](https://img.shields.io/badge/Render-46E3B7?logo=render&logoColor=white) | Serverless hosting |
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-* Docker & Docker Compose
 
-### Installation & Running
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/YOUR_USERNAME/diabetes-mlops-project.git](https://github.com/YOUR_USERNAME/diabetes-mlops-project.git)
-    cd diabetes-mlops-project
-    ```
+- Docker & Docker Compose installed
+- Git installed
+- (Optional) Python 3.11+ for local development
 
-2.  **Build and Start Services:**
-    ```bash
-    docker-compose up -d --build
-    ```
+### Installation
 
-3.  **Train the Model (First Run Only):**
-    The API needs a trained model. Trigger the pipeline inside the container:
-    ```bash
-    docker exec -it diabetes_api python main.py
-    ```
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/Mesutssmn/diabetes-mlops-project.git
+   cd diabetes-mlops-project
+   ```
 
-4.  **Register the Model:**
-    * Go to MLflow UI: [http://localhost:5000](http://localhost:5000)
-    * Find `DiabetesElasticNetModel`.
-    * Transition the latest version to **"Production"**.
+2. **Launch Services**
+   ```bash
+   docker-compose up -d --build
+   ```
+   This starts all services: API, Frontend, and MLflow server.
 
-5.  **Restart API (to load the new model):**
-    ```bash
-    docker-compose restart api
-    ```
+3. **Train Models (AutoML Pipeline)**
+   ```bash
+   docker exec -it diabetes_api python main.py
+   ```
+   This command:
+   - Validates input data
+   - Trains multiple models (ElasticNet, Random Forest, XGBoost)
+   - Performs 5-fold cross-validation
+   - Selects the best model based on R² score
+   - Registers model in MLflow
+   - Saves artifacts locally
+
+4. **Access Services**
+   
+   | Service | URL | Description |
+   |---------|-----|-------------|
+   | Frontend | http://localhost:8501 | User interface for predictions |
+   | API Docs | http://localhost:8000/docs | Interactive API documentation |
+   | MLflow UI | http://localhost:5000 | Experiment tracking dashboard |
 
 ---
 
 ## 💻 Usage
 
-### 1. Web Interface (Streamlit)
-The easiest way to use the model.
-* **URL:** [http://localhost:8501](http://localhost:8501)
-* Enter the patient's physiological and blood serum data.
-* Click **"Predict Progression"** to see the result and risk analysis.
+### Web Interface
 
-### 2. API Documentation (Swagger UI)
-For developers who want to integrate the model.
-* **URL:** [http://localhost:8000/docs](http://localhost:8000/docs)
-* **Endpoint:** `POST /predict`
+1. Navigate to http://localhost:8501
+2. Enter patient parameters (age, BMI, blood pressure, etc.)
+3. Click "Predict" to get diabetes progression estimate
+4. View prediction confidence and feature importance
 
-#### Example Request Body
+### API Integration
+
+**Endpoint:** `POST /predict`
+
+**Example Request:**
+```bash
+curl -X POST "http://localhost:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "age": 59,
+    "sex": 2,
+    "bmi": 32.1,
+    "bp": 101,
+    "s1": 157,
+    "s2": 93.2,
+    "s3": 38,
+    "s4": 4,
+    "s5": 4.85,
+    "s6": 87
+  }'
+```
+
+**Example Response:**
 ```json
 {
-  "age": 59,
-  "sex": 2,
-  "bmi": 32.1,
-  "bp": 101,
-  "s1": 157,
-  "s2": 93.2,
-  "s3": 38,
-  "s4": 4,
-  "s5": 4.85,
-  "s6": 87
+  "prediction": 206.5,
+  "model_version": "1.0.0",
+  "model_name": "XGBoost"
 }
+```
+
+### Python SDK Example
+
+```python
+import requests
+
+data = {
+    "age": 59,
+    "sex": 2,
+    "bmi": 32.1,
+    "bp": 101,
+    "s1": 157,
+    "s2": 93.2,
+    "s3": 38,
+    "s4": 4,
+    "s5": 4.85,
+    "s6": 87
+}
+
+response = requests.post(
+    "http://localhost:8000/predict",
+    json=data
+)
+
+print(f"Predicted progression: {response.json()['prediction']}")
+```
+
+---
+
+## 🧠 Model Performance
+
+### Current Champion: XGBoost
+
+| Metric | Value | Description |
+|--------|-------|-------------|
+| **R² Score** | ~0.46 | Coefficient of determination |
+| **RMSE** | ~53.41 | Root mean squared error |
+| **MAE** | ~42.15 | Mean absolute error |
+| **Training Time** | <5s | On standard CPU |
+
+### Model Comparison
+
+The AutoML pipeline evaluates three algorithms:
+
+1. **ElasticNet**: Linear regression with L1/L2 regularization
+2. **Random Forest**: Ensemble of decision trees
+3. **XGBoost**: Gradient boosting (current champion)
+
+**Selection Criteria**: 5-fold cross-validated R² score
+
+---
+
+## 📂 Project Structure
+
+```
+diabetes-mlops-project/
+│
+├── 📁 .github/workflows/      # CI/CD pipeline definitions
+│   └── ci_pipeline.yml        # Automated testing & linting
+│
+├── 📁 configs/                # Configuration files
+│   └── config.yaml            # Model & pipeline parameters
+│
+├── 📁 data/                   # Data directory
+│   ├── raw/                   # Original datasets
+│   └── processed/             # Preprocessed data
+│
+├── 📁 docker/                 # Docker configurations
+│   ├── Dockerfile.api         # API container
+│   └── Dockerfile.frontend    # Frontend container
+│
+├── 📁 frontend/               # Streamlit application
+│   ├── app.py                 # Main UI application
+│   └── components/            # UI components
+│
+├── 📁 models/                 # Saved model artifacts
+│   └── model.joblib           # Production model
+│
+├── 📁 src/                    # Source code
+│   ├── 📁 api/                # FastAPI application
+│   │   ├── main.py            # API entry point
+│   │   └── routes/            # API endpoints
+│   │
+│   ├── 📁 components/         # ML pipeline modules
+│   │   ├── data_ingestion.py
+│   │   ├── data_validation.py
+│   │   ├── model_trainer.py
+│   │   └── model_evaluation.py
+│   │
+│   ├── 📁 pipeline/           # Pipeline orchestration
+│   │   └── training_pipeline.py
+│   │
+│   └── 📁 utils/              # Utility functions
+│       └── common.py
+│
+├── 📄 main.py                 # Training pipeline entry point
+├── 📄 docker-compose.yml      # Multi-container orchestration
+├── 📄 requirements.txt        # Python dependencies
+├── 📄 .gitignore              # Git exclusions
+└── 📄 README.md               # Project documentation
+```
+
+---
+
+## 🧪 Development
+
+### Running Tests
+
+```bash
+# Run all tests
+docker exec -it diabetes_api pytest
+
+# Run with coverage
+docker exec -it diabetes_api pytest --cov=src
+```
+
+### Linting & Formatting
+
+```bash
+# Format code
+docker exec -it diabetes_api black src/
+
+# Lint code
+docker exec -it diabetes_api flake8 src/
+```
+
+### Adding New Models
+
+1. Add model configuration in `configs/config.yaml`
+2. Implement training logic in `src/components/model_trainer.py`
+3. Update model evaluation metrics
+4. Run AutoML pipeline to compare performance
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please ensure:
+- Code passes all tests
+- New features include tests
+- Code follows PEP 8 style guide
+- Documentation is updated
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Dataset: Diabetes dataset from scikit-learn
+- Inspiration: MLOps best practices from the community
+- Tools: Thanks to the open-source projects that made this possible
+
+---
+
+## 📧 Contact
+
+**Project Maintainer**: [Mesut Süsman](https://github.com/Mesutssmn)
+
+**Project Link**: [https://github.com/Mesutssmn/diabetes-mlops-project](https://github.com/Mesutssmn/diabetes-mlops-project)
+
+---
+
+<div align="center">
+
+⭐ **Star this repository if you find it helpful!** ⭐
+
+Made with ❤️ by [Mesut Suhan Sisman](https://github.com/Mesutssmn)
+
+</div>
