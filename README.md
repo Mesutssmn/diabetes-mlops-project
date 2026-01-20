@@ -72,14 +72,14 @@ The API provides interactive documentation via Swagger UI.
 ### Example Request Body
 ```json
 {
-  "age": 0.038,
-  "sex": 0.05,
-  "bmi": 0.061,
-  "bp": 0.021,
-  "s1": -0.044,
-  "s2": -0.034,
-  "s3": -0.043,
-  "s4": -0.002,
-  "s5": 0.019,
-  "s6": -0.017
+  "age": 59,
+  "sex": 2,
+  "bmi": 32.1,
+  "bp": 101,
+  "s1": 157,
+  "s2": 93.2,
+  "s3": 38,
+  "s4": 4,
+  "s5": 4.85,
+  "s6": 87
 }
