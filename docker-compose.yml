@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mlflow:
+    build:
+      context: .
+      dockerfile: docker/mlflow.Dockerfile
+    container_name: mlflow_server
+    # We guarantee that it will be recognized by this name in the network
+    hostname: mlflow_server
+    ports:
+      - "5000:5000"
+    environment:
+      # We tell Gunicorn to trust requests coming from all IPs
+      - GUNICORN_CMD_ARGS=--forwarded-allow-ips="*" --bind=0.0.0.0:5000
+    volumes:
+      # CRITICAL CHANGE: We use Docker volume instead of local folder
+      - mlflow_storage:/mlflow
+    networks:
+      - diabetes_network
+    # We clarify the command
+    command: >
+      mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    container_name: diabetes_api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mlflow
+    environment:
+      # We matched the service name with the hostname
+      - MLFLOW_TRACKING_URI=http://mlflow_server:5000
+      # To reduce HTTP errors
+      - MLFLOW_HTTP_LINESPACE=False
+    volumes:
+      - .:/app
+      # API must also look at the same volume to see the trained model
+      - mlflow_storage:/mlflow
+    networks:
+      - diabetes_network
+
+# Define the volume managed by Docker
+volumes:
+  mlflow_storage:
+
+
+networks:
+  diabetes_network:
+    driver: bridge

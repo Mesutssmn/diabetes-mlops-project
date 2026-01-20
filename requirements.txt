@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+mlflow==2.11.3
+scikit-learn
+pandas
+numpy
+pydantic
+pydantic-settings
+pyyaml
+evidently        # For model monitoring
+joblib
+pytest

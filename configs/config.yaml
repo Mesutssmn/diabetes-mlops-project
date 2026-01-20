@@ -1,0 +1,13 @@
+artifacts:
+  model_name: "diabetes_regression_model"
+  model_dir: "models"
+  
+data:
+  raw_path: "data/raw/diabetes.csv"
+  processed_path: "data/processed/cleaned_diabetes.csv"
+  test_size: 0.2
+
+mlflow:
+  experiment_name: "diabetes_prediction_prod"
+  tracking_uri: "http://mlflow_server:5000"
+  model_name: DiabetesElasticNetModel
