@@ -4,6 +4,7 @@
 ![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-009688)
 ![XGBoost](https://img.shields.io/badge/Model-XGBoost-orange)
+![Gradio](https://img.shields.io/badge/Gradio-2D8CD2?logo=gradio&logoColor=white)
 ![CI/CD](https://github.com/Mesutssmn/diabetes-mlops-project/actions/workflows/ci_pipeline.yml/badge.svg)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
@@ -19,8 +20,13 @@ Experience the application in action:
 |---------|-----|-------------|
 | 🖥️ **Frontend** | [Streamlit App](https://diabetes-frontend-9oya.onrender.com) | Interactive prediction interface |
 | 📡 **API** | [Swagger Docs](https://diabetes-api-lpra.onrender.com/docs) | RESTful API documentation |
-
+| 🤗 **Gradio (HF Space)** | [Gradio UI](https://huggingface.co/spaces/Mesutssmn/diatebes-mlops) | Always-on public ML demo (local inference) |
 > **Note:** Update the API link with your actual Render deployment URL
+
+### Deployment Strategy
+- **FastAPI + Streamlit (Render):** Production-style deployment
+- **Gradio (Hugging Face Spaces):** Public, always-available demo with local model inference  
+  *(No external API dependency — avoids cold-start issues)*
 
 ---
 
@@ -41,36 +47,41 @@ Experience the application in action:
 
 ## 🎯 Overview
 
-This project showcases a **production-grade MLOps pipeline** for predicting diabetes disease progression. It implements industry best practices including automated model training, experiment tracking, containerization, and CI/CD workflows.
+This project showcases a **production-grade MLOps pipeline** for predicting diabetes disease progression.  
+It follows industry best practices across the full ML lifecycle: training, evaluation, versioning, serving, monitoring, and deployment.
 
-### What Makes This Special?
+### What Makes This Project Stand Out?
 
-- **AutoML Pipeline**: Automatically trains and compares multiple algorithms (ElasticNet, Random Forest, XGBoost)
-- **Intelligent Model Selection**: Uses cross-validation to select the best performing model
-- **Hybrid Deployment**: Seamlessly switches between MLflow Registry (dev) and local artifacts (production)
-- **Cloud-Ready**: Deployed on Render with zero-downtime architecture
+- **AutoML Pipeline** comparing multiple models (ElasticNet, Random Forest, XGBoost)
+- **Champion Model Selection** using cross-validated R² score
+- **Hybrid Deployment Strategy**
+  - MLflow Registry for development
+  - Local model artifacts for production reliability
+- **Dual Inference Surfaces**
+  - API-based inference (FastAPI)
+  - UI-based inference (Streamlit & Gradio)
 
 ---
 
 ## ✨ Key Features
 
 ### 🤖 Machine Learning
-- **Automated Model Training**: Compare multiple algorithms with a single command
-- **Model Versioning**: Track experiments and models using MLflow
-- **Performance Monitoring**: Built-in metrics tracking and visualization
-- **Feature Engineering**: Automated preprocessing and validation
+- Automated training and evaluation pipeline
+- MLflow-based experiment tracking and model registry
+- Deterministic feature ordering and preprocessing
+- Reproducible training via Docker
 
 ### 🏗️ Architecture
-- **Microservices Design**: Separated backend (FastAPI) and frontend (Streamlit)
-- **Containerization**: Fully Dockerized for consistent environments
-- **API-First Approach**: RESTful API with OpenAPI documentation
-- **Scalable Infrastructure**: Ready for horizontal scaling
+- API-first design with FastAPI
+- Stateless inference layer
+- Separate UI clients (Streamlit & Gradio)
+- Clear separation of training, serving, and presentation layers
 
 ### 🔄 DevOps & CI/CD
-- **Automated Testing**: GitHub Actions pipeline with linting and tests
-- **Docker Compose**: One-command local development setup
-- **Environment Management**: Configuration-driven deployments
-- **Cloud Deployment**: Automated deployment to Render
+- Dockerized services
+- GitHub Actions for CI
+- Config-driven pipelines
+- Cloud-ready deployments
 
 ---
 
@@ -129,12 +140,12 @@ graph TB
 |-----------|-----------|---------|
 | **Language** | ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python) | Core programming language |
 | **Web Framework** | ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) | High-performance REST API |
-| **UI Framework** | ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white) | Interactive web interface |
+| **UI Framework** | ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white) ![Gradio](https://img.shields.io/badge/Gradio-2D8CD2?logo=gradio&logoColor=white) | Interactive web interface |
 | **ML Framework** | ![XGBoost](https://img.shields.io/badge/XGBoost-orange) ![Sklearn](https://img.shields.io/badge/Scikit--learn-F7931E?logo=scikit-learn&logoColor=white) | Model training & evaluation |
 | **Experiment Tracking** | ![MLflow](https://img.shields.io/badge/MLflow-0194E2?logo=mlflow&logoColor=white) | Model versioning & registry |
 | **Containerization** | ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) | Consistent environments |
 | **CI/CD** | ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=github-actions&logoColor=white) | Automated testing & deployment |
-| **Cloud Platform** | ![Render](https://img.shields.io/badge/Render-46E3B7?logo=render&logoColor=white) | Serverless hosting |
+| **Cloud Platform** | ![Render](https://img.shields.io/badge/Render-46E3B7?logo=render&logoColor=white) ![HuggingFace Space](https://img.shields.io/badge/HuggingFace%20Space-FFD21E?logo=huggingface&logoColor=black) |
 
 ---
 
